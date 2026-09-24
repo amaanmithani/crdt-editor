@@ -1,12 +1,14 @@
 import { existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { startSyncServer } from './syncServer.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 // Built layout: dist/server/server/main.js -> dist/web; dev layout: src/server -> dist/web.
-const candidates = [resolve(here, '../../web'), resolve(here, '../../dist/web')];
-const staticDir = process.env.STATIC_DIR ?? candidates.find((dir) => existsSync(dir));
+// Only a Vite build output (it has an assets/ dir) qualifies, never the web/ sources.
+const candidates = [resolve(here, '../../dist/web'), resolve(here, '../../web')];
+const staticDir =
+  process.env.STATIC_DIR ?? candidates.find((dir) => existsSync(join(dir, 'assets')));
 
 const server = await startSyncServer({
   port: Number(process.env.PORT ?? 8787),

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>crdt-editor</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>crdt-editor</h1>
+          <p class="sub">Room <code id="room"></code> · you are <code id="me"></code></p>
+        </div>
+        <div class="controls">
+          <span id="status" class="pill" data-status="offline">offline</span>
+          <label class="toggle">
+            <input id="offline" type="checkbox" />
+            <span>Simulate offline</span>
+          </label>
+        </div>
+      </header>
+
+      <textarea
+        id="editor"
+        spellcheck="false"
+        autocomplete="off"
+        placeholder="Start typing. Open this page in a second tab to edit together."
+        aria-label="Shared document"
+      ></textarea>
+
+      <footer>
+        <div>
+          <span class="label">Peers</span>
+          <ul id="peers"></ul>
+        </div>
+        <dl id="stats"></dl>
+      </footer>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

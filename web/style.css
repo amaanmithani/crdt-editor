@@ -1,0 +1,149 @@
+:root {
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --ink: #1c1c1a;
+  --muted: #6b6b66;
+  --line: #e2e2dc;
+  --ok: #1f7a4d;
+  --warn: #a15c00;
+  --off: #9a2b2b;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615;
+    --panel: #1f1f1d;
+    --ink: #ecece8;
+    --muted: #9a9a93;
+    --line: #34342f;
+    --ok: #5cc28e;
+    --warn: #e0a24a;
+    --off: #e07474;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font:
+    15px/1.5 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  display: grid;
+  gap: 16px;
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  justify-content: space-between;
+}
+h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.sub {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+code {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.pill {
+  font: 12px/1 var(--mono);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.pill[data-status='online'] {
+  color: var(--ok);
+}
+.pill[data-status='connecting'] {
+  color: var(--warn);
+}
+.pill[data-status='offline'] {
+  color: var(--off);
+}
+.toggle {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+textarea {
+  width: 100%;
+  min-height: 55vh;
+  resize: vertical;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font: 15px/1.6 var(--mono);
+}
+textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--ok) 40%, transparent);
+  outline-offset: 1px;
+}
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+}
+.label {
+  margin-right: 8px;
+}
+#peers {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#peers li {
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+}
+#peers li.me {
+  border-color: var(--ok);
+}
+dl {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  font-family: var(--mono);
+}
+dt {
+  display: inline;
+}
+dd {
+  display: inline;
+  margin: 0 0 0 4px;
+  color: var(--ink);
+}
