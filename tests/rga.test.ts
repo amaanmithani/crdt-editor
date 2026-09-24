@@ -67,6 +67,19 @@ describe('Rga local editing', () => {
     const copy = Rga.fromSnapshot('b', doc.snapshot());
     expect(copy.toString()).toBe(model);
   });
+  it('pastes long text across block splits', () => {
+    const doc = new Rga('a');
+    const other = new Rga('b');
+    const big = 'x'.repeat(300) + 'y'.repeat(300);
+    other.applyRemoteAll(doc.insert(0, big));
+    const paste = Array.from({ length: 1000 }, (_, i) => String.fromCharCode(65 + (i % 26))).join(
+      '',
+    );
+    other.applyRemoteAll(doc.insert(300, paste));
+    const expected = 'x'.repeat(300) + paste + 'y'.repeat(300);
+    expect(doc.toString()).toBe(expected);
+    expect(other.toString()).toBe(expected);
+  });
 });
 
 describe('Rga remote ops', () => {

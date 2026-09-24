@@ -23,7 +23,7 @@ interface Block {
   visible: number;
 }
 
-const MAX_BLOCK = 512;
+const MAX_BLOCK = 128;
 
 interface Position {
   bi: number;
@@ -105,12 +105,22 @@ export class Rga {
   insert(index: number, text: string): InsertOp[] {
     this.checkIndex(index, this.visibleLength);
     const ops: InsertOp[] = [];
-    let left: Id | null = index === 0 ? null : this.itemAtVisible(index - 1).id;
+    // A fresh local id is larger than every id we know, so RGA places it
+    // directly after its left neighbour: no origin lookup or skipping needed.
+    let pos: Position = { bi: 0, ii: 0 };
+    let left: Id | null = null;
+    if (index > 0) {
+      pos = this.positionAtVisible(index - 1);
+      left = this.blocks[pos.bi]!.items[pos.ii]!.id;
+      pos.ii += 1;
+    }
     for (let i = 0; i < text.length; i++) {
       const op: InsertOp = { t: 'i', id: [++this.clock, this.replica], l: left, v: text[i]! };
-      this.integrateInsert(op);
+      const item = this.insertAt(pos, op);
       ops.push(op);
       left = op.id;
+      pos = this.locate(item);
+      pos.ii += 1;
     }
     return ops;
   }
@@ -246,6 +256,11 @@ export class Rga {
       else break;
     }
     const at = this.visibleOffset(pos);
+    this.insertAt(pos, op);
+    return at;
+  }
+
+  private insertAt(pos: Position, op: InsertOp): Item {
     const block = this.blocks[pos.bi]!;
     const key = idKey(op.id);
     const item: Item = {
@@ -261,7 +276,7 @@ export class Rga {
     this.visibleLength++;
     this.index.set(key, item);
     if (block.items.length > MAX_BLOCK) this.split(pos.bi);
-    return at;
+    return item;
   }
 
   private tombstone(item: Item): void {
@@ -301,15 +316,22 @@ export class Rga {
   }
 
   private itemAtVisible(index: number): Item {
+    const pos = this.positionAtVisible(index);
+    return this.blocks[pos.bi]!.items[pos.ii]!;
+  }
+
+  private positionAtVisible(index: number): Position {
     let remaining = index;
-    for (const block of this.blocks) {
+    for (let bi = 0; bi < this.blocks.length; bi++) {
+      const block = this.blocks[bi]!;
       if (remaining >= block.visible) {
         remaining -= block.visible;
         continue;
       }
-      for (const item of block.items) {
-        if (item.deleted) continue;
-        if (remaining === 0) return item;
+      const items = block.items;
+      for (let ii = 0; ii < items.length; ii++) {
+        if (items[ii]!.deleted) continue;
+        if (remaining === 0) return { bi, ii };
         remaining--;
       }
     }
