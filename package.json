@@ -1,0 +1,45 @@
+{
+  "name": "crdt-editor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Collaborative text editing on a from-scratch RGA sequence CRDT, with a WebSocket sync relay and a textarea client.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev:server": "tsx src/server/main.ts",
+    "dev:web": "vite --config web/vite.config.ts",
+    "start": "node dist/server/server/main.js",
+    "build": "npm run build:server && npm run build:web",
+    "build:server": "tsc -p tsconfig.build.json",
+    "build:web": "vite build --config web/vite.config.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:props": "FC_RUNS=2000 vitest run tests/convergence.props.test.ts",
+    "bench": "tsx scripts/bench.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.2",
+    "@types/ws": "^8.18.1",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^10.11.0",
+    "fast-check": "^4.10.2",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.0",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "ws": "^8.21.3"
+  }
+}
