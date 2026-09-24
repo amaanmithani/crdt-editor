@@ -192,6 +192,7 @@ npm run build
 - **The relay trusts clients.** Messages are validated for shape, but there is no auth, no
   rate limiting, and no cap on a room's buffered or pending ops. A malicious client can bloat
   a room. Persistence is a single JSON file rewritten on an interval.
-- **The browser UI has no automated tests.** The logic it relies on (`diffText`,
-  `SyncClient`) is tested in Node against a real ws server, but the DOM glue in
-  `web/main.ts` has no automated browser test in this repo.
+- **The browser UI has no automated tests.** The logic it relies on is tested in Node against a real
+  WebSocket server, and the page was checked by hand in Chrome (two tabs: live typing; one tab offline
+  while both edited; reconnect converged to the same text). There's no automated browser test for
+  `web/main.ts`.
