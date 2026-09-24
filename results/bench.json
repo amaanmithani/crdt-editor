@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-09-24T05:40:02.451Z",
+  "environment": {
+    "node": "v25.9.0",
+    "cpu": "Apple M1 Pro",
+    "platform": "darwin-arm64",
+    "loadAverage1m": 26.81,
+    "note": "single run, wall-clock; numbers vary with machine load"
+  },
+  "localEdits": {
+    "description": "100k random single-char edits (70% insert / 30% delete) at random positions",
+    "ops": 100000,
+    "ms": 2752.6,
+    "opsPerSec": 36329,
+    "finalTextLength": 39618,
+    "elements": 69809
+  },
+  "remoteReplay": {
+    "description": "the same 100k ops applied via applyRemote on a fresh replica",
+    "ops": 100000,
+    "ms": 4522.4,
+    "opsPerSec": 22112
+  },
+  "divergedMerge": {
+    "description": "two replicas share a base (14k edits), then each makes 10k random edits offline; merge both ways",
+    "baseOps": 14000,
+    "opsPerSide": 10000,
+    "opBasedMergeMs": 175,
+    "snapshotMergeMs": 108,
+    "mergedTextLength": 14322
+  },
+  "snapshotSize": {
+    "sequentialTyping50k": {
+      "textLength": 50000,
+      "elementsIncludingTombstones": 50000,
+      "tombstones": 0,
+      "snapshotBytes": 688961,
+      "bytesPerVisibleChar": 13.78,
+      "bytesPerElement": 13.78
+    },
+    "randomEdits100k": {
+      "textLength": 39618,
+      "elementsIncludingTombstones": 69809,
+      "tombstones": 30191,
+      "snapshotBytes": 1104477,
+      "bytesPerVisibleChar": 27.88,
+      "bytesPerElement": 15.82
+    }
+  }
+}
