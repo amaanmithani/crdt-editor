@@ -7,6 +7,16 @@ Automerge). It has four parts: an RGA implementation in TypeScript, property tes
 convergence under hostile delivery, a WebSocket relay with rooms, and a textarea client where you
 can cut a tab off the network, keep typing, and watch it merge when it reconnects.
 
+## See it running
+
+![Two browser tabs in room demo: tab A is offline with 36 unsynced ops and a line tab B hasn't seen; tab B has its own new line](docs/img/two-tabs-offline.png)
+
+Local run (`npm run build && npm start`), two clients (the built page loaded twice, side by side in one headless Chrome window) in the same room; the typing was scripted over the DevTools protocol. Tab A has **Simulate offline** ticked and both tabs have typed a line the other hasn't seen.
+
+![The same two tabs after tab A reconnects: both show the same five lines, 0 unsynced ops](docs/img/two-tabs-merged.png)
+
+After unticking it: tab A merges the server snapshot and sends its 36 ops, and both tabs converge on the same text.
+
 ## What the CRDT buys you
 
 Two people editing the same text concurrently will produce operations that conflict: both
