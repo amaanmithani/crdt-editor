@@ -1,5 +1,7 @@
 # crdt-editor
 
+> **Credits.** Built by Amaan Mithani with Claude (Anthropic) as the AI coding assistant.
+
 Collaborative plain-text editing built on a sequence CRDT written from scratch (no Yjs, no
 Automerge). It has four parts: an RGA implementation in TypeScript, property tests that check
 convergence under hostile delivery, a WebSocket relay with rooms, and a textarea client where you
